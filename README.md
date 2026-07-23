@@ -45,13 +45,26 @@ cp infra/.env.example infra/.env
 docker compose --env-file infra/.env -f infra/compose.yaml up --build
 ```
 
-啟動時 Flyway 會從空白 schema 建立 `BANK_USER`、`ACCOUNT` 與 `TRANSACTION_REC`。migration 不包含舊資料，也不會執行刪表 SQL。
+啟動時 Flyway 會從空白 schema 建立 `BANK_USER`、`ACCOUNT`、`TRANSACTION_REC` 與舊系統使用的 `HIBERNATE_SEQUENCE`。migration 不包含舊資料，也不會執行刪表 SQL。
+
+前端開發伺服器會將 `/api` 代理至 `localhost:8080`：
+
+```bash
+cd frontend
+npm run dev
+```
+
+若 `8080` 已被其他服務占用，可指定實際的後端網址：
+
+```bash
+VITE_API_PROXY_TARGET=http://localhost:18080 npm run dev
+```
 
 ## Migration 進度
 
 - [x] 建立新專案骨架。
 - [x] 建立全新 Oracle schema migration。
-- [ ] 註冊與登入。
+- [x] 註冊、登入與登出。
 - [ ] 帳戶。
 - [ ] 存款與提款。
 - [ ] 轉帳。

@@ -22,6 +22,13 @@
 - Schema：Flyway。
 - 本機環境：Docker Compose 與獨立 Oracle volume。
 
+## 前端畫面與資源
+
+- 每個 Vue 畫面實作前，必須先查閱舊專案對應 XHTML、共用 template、CSS 與圖片資源。
+- Vue 畫面的版型、文案、欄位順序、色彩、間距及操作配置必須與舊專案一致；僅能針對 Vue 技術需求與響應式顯示進行必要調整。
+- 舊專案已有且新畫面需要的圖片、icon、紋理或 favicon，必須從舊專案複製到新專案使用，不得修改舊檔案。
+- 只複製目前功能所需的 resources；來源、用途與無法完全一致的差異必須記錄在 Migration 文件或 `專案編譯與歷程.md`。
+
 ## 建置與啟動
 
 後端：
@@ -49,6 +56,10 @@ docker compose --env-file infra/.env -f infra/compose.yaml up --build
 ```
 
 `.env` 不可提交版本控制。
+
+## 版本控制
+
+- Git commit message 必須使用繁體中文撰寫，並清楚描述該次提交的變更內容。
 
 ## 驗收原則
 
