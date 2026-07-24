@@ -70,7 +70,7 @@ async function logout() {
           {{ authStore.user?.firstName }}, welcome to your account!
         </span>
         <span class="account-user-actions">
-          <button class="account-user-action" type="button" disabled>
+          <button class="account-user-action" type="button" @click="openMenuItem('profile')">
             <img :src="userInfoIcon" alt="" />
             User Profile
           </button>

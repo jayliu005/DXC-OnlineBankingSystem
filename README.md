@@ -69,5 +69,5 @@ VITE_API_PROXY_TARGET=http://localhost:18080 npm run dev
 - [x] 存款與提款。
 - [x] 轉帳。
 - [x] 交易紀錄。
-- [ ] 個人資料查詢與修改。
+- [x] 個人資料查詢與修改。
 - [ ] 新舊系統人工比對與切換。

@@ -44,6 +44,12 @@ const router = createRouter({
       meta: { requiresAuth: true, title: 'Online Banking History' },
     },
     {
+      path: '/user/profile',
+      name: 'profile',
+      component: () => import('@/views/UserProfileView.vue'),
+      meta: { requiresAuth: true, title: 'Online Banking Edit Profile' },
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue'),

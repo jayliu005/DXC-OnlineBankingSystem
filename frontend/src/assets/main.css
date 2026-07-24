@@ -445,6 +445,20 @@ input {
   margin-top: 60px;
 }
 
+.legacy-fieldset--profile {
+  width: 68%;
+  margin-top: 55px;
+}
+
+.legacy-fieldset--profile-success {
+  width: 62%;
+  margin-top: 70px;
+}
+
+.profile-form-grid {
+  grid-template-columns: 155px 215px minmax(0, 230px);
+}
+
 .history-results-title {
   margin: 28px auto 15px;
   color: #008000;

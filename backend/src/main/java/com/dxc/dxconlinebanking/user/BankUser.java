@@ -149,4 +149,29 @@ public class BankUser {
 	public String getEmail() {
 		return email;
 	}
+
+	public void updateProfile(
+			String firstName,
+			String lastName,
+			String middleInitial,
+			String gender,
+			LocalDate dateOfBirth,
+			String street,
+			String city,
+			String state,
+			String zip,
+			String phone,
+			String email) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.middleInitial = middleInitial;
+		this.gender = gender;
+		this.dateOfBirth = dateOfBirth;
+		this.street = street;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.phone = phone;
+		this.email = email;
+	}
 }
