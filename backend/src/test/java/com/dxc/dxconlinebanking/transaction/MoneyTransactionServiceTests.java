@@ -38,6 +38,7 @@ class MoneyTransactionServiceTests {
 
 	private MoneyTransactionService service;
 	private BankAccount account;
+	private BankAccount destinationAccount;
 
 	@BeforeEach
 	void setUp() {
@@ -59,6 +60,12 @@ class MoneyTransactionServiceTests {
 				"Checking",
 				new BigDecimal("100.00"),
 				"hashed-pin",
+				LocalDateTime.now(),
+				bankUser);
+		destinationAccount = new BankAccount(
+				"Saving",
+				new BigDecimal("20.00"),
+				"destination-hashed-pin",
 				LocalDateTime.now(),
 				bankUser);
 		service = new MoneyTransactionService(
@@ -129,6 +136,78 @@ class MoneyTransactionServiceTests {
 						new DepositRequest(10L, new BigDecimal("25.00"), "9999")));
 
 		assertEquals(new BigDecimal("100.00"), account.getAccountBalance());
+		verify(transactionRepository, never()).save(any());
+	}
+
+	@Test
+	void transferMovesBalanceBetweenAccountsAndCreatesRecord() {
+		when(accountRepository.findByIdAndBankUserUserName(10L, "transaction-owner"))
+				.thenReturn(Optional.of(account));
+		when(accountRepository.findById(20L)).thenReturn(Optional.of(destinationAccount));
+		when(passwordEncoder.matches("1234", "hashed-pin")).thenReturn(true);
+		when(transactionRepository.save(any(TransactionRecord.class)))
+				.thenAnswer(invocation -> invocation.getArgument(0));
+
+		service.transfer(
+				"transaction-owner",
+				new TransferRequest(10L, 20L, new BigDecimal("35.25"), "1234"));
+
+		assertEquals(new BigDecimal("64.75"), account.getAccountBalance());
+		assertEquals(new BigDecimal("55.25"), destinationAccount.getAccountBalance());
+		var captor = ArgumentCaptor.forClass(TransactionRecord.class);
+		verify(transactionRepository).save(captor.capture());
+		assertEquals("Transfer", captor.getValue().getTransactionType());
+		assertEquals(account, captor.getValue().getAccountFrom());
+		assertEquals(destinationAccount, captor.getValue().getAccountTo());
+	}
+
+	@Test
+	void transferRejectsMissingDestinationWithoutChangingData() {
+		when(accountRepository.findByIdAndBankUserUserName(10L, "transaction-owner"))
+				.thenReturn(Optional.of(account));
+		when(accountRepository.findById(99L)).thenReturn(Optional.empty());
+
+		assertThrows(
+				AccountNotFoundException.class,
+				() -> service.transfer(
+						"transaction-owner",
+						new TransferRequest(10L, 99L, new BigDecimal("10.00"), "1234")));
+
+		assertEquals(new BigDecimal("100.00"), account.getAccountBalance());
+		verify(transactionRepository, never()).save(any());
+	}
+
+	@Test
+	void transferRejectsSameAccountWithoutChangingData() {
+		when(accountRepository.findByIdAndBankUserUserName(10L, "transaction-owner"))
+				.thenReturn(Optional.of(account));
+		when(accountRepository.findById(10L)).thenReturn(Optional.of(account));
+
+		assertThrows(
+				TransactionRejectedException.class,
+				() -> service.transfer(
+						"transaction-owner",
+						new TransferRequest(10L, 10L, new BigDecimal("10.00"), "1234")));
+
+		assertEquals(new BigDecimal("100.00"), account.getAccountBalance());
+		verify(transactionRepository, never()).save(any());
+	}
+
+	@Test
+	void transferRejectsAmountAboveSourceBalanceWithoutChangingEitherAccount() {
+		when(accountRepository.findByIdAndBankUserUserName(10L, "transaction-owner"))
+				.thenReturn(Optional.of(account));
+		when(accountRepository.findById(20L)).thenReturn(Optional.of(destinationAccount));
+		when(passwordEncoder.matches("1234", "hashed-pin")).thenReturn(true);
+
+		assertThrows(
+				TransactionRejectedException.class,
+				() -> service.transfer(
+						"transaction-owner",
+						new TransferRequest(10L, 20L, new BigDecimal("100.01"), "1234")));
+
+		assertEquals(new BigDecimal("100.00"), account.getAccountBalance());
+		assertEquals(new BigDecimal("20.00"), destinationAccount.getAccountBalance());
 		verify(transactionRepository, never()).save(any());
 	}
 }

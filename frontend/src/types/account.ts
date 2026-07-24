@@ -12,3 +12,8 @@ export interface CreateAccountRequest {
   securityPin: string
   repeatSecurityPin: string
 }
+
+export interface AccountExistence {
+  exists: boolean
+  message: string
+}

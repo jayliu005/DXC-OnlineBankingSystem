@@ -1,4 +1,5 @@
-export type MoneyTransactionType = 'Deposit' | 'Withdraw'
+export type MoneyTransactionType = 'Deposit' | 'Withdraw' | 'Transfer'
+export type CashTransactionType = Exclude<MoneyTransactionType, 'Transfer'>
 
 export interface MoneyTransactionRequest {
   accountId: number
@@ -13,4 +14,11 @@ export interface MoneyTransaction {
   accountFromId: number
   accountToId: number | null
   transactionTime: string
+}
+
+export interface TransferRequest {
+  accountFromId: number
+  accountToId: number
+  amount: string
+  securityPin: string
 }

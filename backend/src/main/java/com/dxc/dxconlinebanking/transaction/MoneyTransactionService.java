@@ -46,6 +46,26 @@ public class MoneyTransactionService {
 		return saveTransaction(account, "Withdraw", request.amount());
 	}
 
+	@Transactional
+	public TransactionResponse transfer(String userName, TransferRequest request) {
+		BankAccount accountFrom = requireOwnedAccount(request.accountFromId(), userName);
+		BankAccount accountTo = accountRepository.findById(request.accountToId())
+				.orElseThrow(() -> new AccountNotFoundException(request.accountToId()));
+		if (request.accountFromId().equals(request.accountToId())) {
+			throw new TransactionRejectedException(
+					"Cannot transfer money within the same account!");
+		}
+		verifyPin(request.securityPin(), accountFrom);
+		if (request.amount().compareTo(accountFrom.getAccountBalance()) > 0) {
+			throw new TransactionRejectedException(
+					"No enough money in account ID '%s'".formatted(request.accountFromId()));
+		}
+
+		accountFrom.withdraw(request.amount());
+		accountTo.deposit(request.amount());
+		return saveTransaction(accountFrom, accountTo, "Transfer", request.amount());
+	}
+
 	private BankAccount requireOwnedAccount(Long accountId, String userName) {
 		return accountRepository.findByIdAndBankUserUserName(accountId, userName)
 				.orElseThrow(() -> new AccountNotFoundException(accountId));
@@ -59,8 +79,16 @@ public class MoneyTransactionService {
 
 	private TransactionResponse saveTransaction(
 			BankAccount account, String transactionType, BigDecimal amount) {
+		return saveTransaction(account, null, transactionType, amount);
+	}
+
+	private TransactionResponse saveTransaction(
+			BankAccount accountFrom,
+			BankAccount accountTo,
+			String transactionType,
+			BigDecimal amount) {
 		var record = new TransactionRecord(
-				account, null, transactionType, amount, LocalDateTime.now());
+				accountFrom, accountTo, transactionType, amount, LocalDateTime.now());
 		return TransactionResponse.from(transactionRepository.save(record));
 	}
 }

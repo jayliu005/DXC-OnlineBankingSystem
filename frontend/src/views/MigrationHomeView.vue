@@ -24,7 +24,7 @@ const menuItems = [
   { label: 'New Account', icon: addAccountIcon, routeName: 'new-account' },
   { label: 'Withdraw Money', icon: withdrawIcon, routeName: 'withdraw' },
   { label: 'Deposit Money', icon: depositIcon, routeName: 'deposit' },
-  { label: 'Transfer Money', icon: transferIcon },
+  { label: 'Transfer Money', icon: transferIcon, routeName: 'transfer' },
   { label: 'Transaction History', icon: historyIcon },
 ]
 

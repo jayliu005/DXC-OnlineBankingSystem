@@ -32,6 +32,12 @@ const router = createRouter({
       meta: { requiresAuth: true, title: 'Online Banking Withdraw' },
     },
     {
+      path: '/accounts/transfer',
+      name: 'transfer',
+      component: () => import('@/views/TransferView.vue'),
+      meta: { requiresAuth: true, title: 'Online Banking Transfer' },
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue'),

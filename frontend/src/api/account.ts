@@ -1,5 +1,5 @@
 import { request } from '@/api/client'
-import type { BankAccount, CreateAccountRequest } from '@/types/account'
+import type { AccountExistence, BankAccount, CreateAccountRequest } from '@/types/account'
 
 export function getAccounts() {
   return request<BankAccount[]>('/api/accounts')
@@ -10,4 +10,8 @@ export function createAccount(payload: CreateAccountRequest) {
     method: 'POST',
     body: JSON.stringify(payload),
   })
+}
+
+export function checkAccountExistence(accountId: number) {
+  return request<AccountExistence>(`/api/accounts/${accountId}/existence`)
 }

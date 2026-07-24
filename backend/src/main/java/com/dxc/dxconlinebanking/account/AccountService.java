@@ -48,6 +48,15 @@ public class AccountService {
 		return AccountResponse.from(accountRepository.save(account));
 	}
 
+	@Transactional(readOnly = true)
+	public AccountExistenceResponse checkExistence(Long accountId) {
+		boolean exists = accountRepository.existsById(accountId);
+		String message = exists
+				? "Account with id '%s' exists".formatted(accountId)
+				: "No such account with account id '%s'".formatted(accountId);
+		return new AccountExistenceResponse(exists, message);
+	}
+
 	private BankUser requireUser(String userName) {
 		return userRepository.findByUserName(userName)
 				.orElseThrow(() -> new UsernameNotFoundException(

@@ -34,4 +34,11 @@ public class MoneyTransactionController {
 		TransactionResponse transaction = transactionService.withdraw(principal.getName(), request);
 		return ResponseEntity.status(HttpStatus.CREATED).body(transaction);
 	}
+
+	@PostMapping("/transfers")
+	public ResponseEntity<TransactionResponse> transfer(
+			Principal principal, @Valid @RequestBody TransferRequest request) {
+		TransactionResponse transaction = transactionService.transfer(principal.getName(), request);
+		return ResponseEntity.status(HttpStatus.CREATED).body(transaction);
+	}
 }
