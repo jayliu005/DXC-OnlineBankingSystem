@@ -65,8 +65,8 @@ VITE_API_PROXY_TARGET=http://localhost:18080 npm run dev
 - [x] 建立新專案骨架。
 - [x] 建立全新 Oracle schema migration。
 - [x] 註冊、登入與登出。
-- [ ] 帳戶。
-- [ ] 存款與提款。
+- [x] 帳戶清單與建立帳戶。
+- [x] 存款與提款。
 - [ ] 轉帳。
 - [ ] 交易紀錄與個人資料。
 - [ ] 新舊系統人工比對與切換。

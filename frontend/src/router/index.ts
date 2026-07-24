@@ -12,6 +12,26 @@ const router = createRouter({
       meta: { requiresAuth: true, title: 'Online Banking Account Home' },
     },
     {
+      path: '/accounts/new',
+      name: 'new-account',
+      component: () => import('@/views/NewAccountView.vue'),
+      meta: { requiresAuth: true, title: 'Online Banking Add New Account' },
+    },
+    {
+      path: '/accounts/deposit',
+      name: 'deposit',
+      component: () => import('@/views/MoneyTransactionView.vue'),
+      props: { transactionType: 'Deposit' },
+      meta: { requiresAuth: true, title: 'Online Banking Deposit' },
+    },
+    {
+      path: '/accounts/withdraw',
+      name: 'withdraw',
+      component: () => import('@/views/MoneyTransactionView.vue'),
+      props: { transactionType: 'Withdraw' },
+      meta: { requiresAuth: true, title: 'Online Banking Withdraw' },
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue'),
@@ -39,8 +59,7 @@ router.beforeEach(async (to) => {
 })
 
 router.afterEach((to) => {
-  document.title =
-    typeof to.meta.title === 'string' ? to.meta.title : 'DXC Online Banking System'
+  document.title = typeof to.meta.title === 'string' ? to.meta.title : 'DXC Online Banking System'
 })
 
 export default router

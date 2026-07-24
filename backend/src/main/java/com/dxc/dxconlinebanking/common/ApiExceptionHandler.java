@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.dxc.dxconlinebanking.auth.UsernameAlreadyExistsException;
+import com.dxc.dxconlinebanking.transaction.AccountNotFoundException;
+import com.dxc.dxconlinebanking.transaction.TransactionRejectedException;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
@@ -22,9 +24,11 @@ public class ApiExceptionHandler {
 	ResponseEntity<ApiError> handleValidation(MethodArgumentNotValidException exception) {
 		var fieldErrors = new LinkedHashMap<String, String>();
 		for (var error : exception.getBindingResult().getFieldErrors()) {
-			String field = "passwordConfirmed".equals(error.getField())
-					? "repeatPassword"
-					: error.getField();
+			String field = switch (error.getField()) {
+				case "passwordConfirmed" -> "repeatPassword";
+				case "pinConfirmed" -> "repeatSecurityPin";
+				default -> error.getField();
+			};
 			fieldErrors.putIfAbsent(field, error.getDefaultMessage());
 		}
 		for (var error : exception.getBindingResult().getGlobalErrors()) {
@@ -46,6 +50,16 @@ public class ApiExceptionHandler {
 	@ExceptionHandler(UsernameAlreadyExistsException.class)
 	ResponseEntity<ApiError> handleUsernameExists(UsernameAlreadyExistsException exception) {
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiError(exception.getMessage()));
+	}
+
+	@ExceptionHandler(AccountNotFoundException.class)
+	ResponseEntity<ApiError> handleAccountNotFound(AccountNotFoundException exception) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiError(exception.getMessage()));
+	}
+
+	@ExceptionHandler(TransactionRejectedException.class)
+	ResponseEntity<ApiError> handleTransactionRejected(TransactionRejectedException exception) {
+		return ResponseEntity.badRequest().body(new ApiError(exception.getMessage()));
 	}
 
 	@ExceptionHandler({UsernameNotFoundException.class, BadCredentialsException.class})

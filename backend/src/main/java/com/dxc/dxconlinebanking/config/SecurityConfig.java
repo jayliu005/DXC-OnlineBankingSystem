@@ -2,6 +2,7 @@ package com.dxc.dxconlinebanking.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,6 +26,9 @@ public class SecurityConfig {
 				.formLogin(AbstractHttpConfigurer::disable)
 				.httpBasic(AbstractHttpConfigurer::disable)
 				.logout(AbstractHttpConfigurer::disable)
+				.exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(
+						(request, response, exception) ->
+								response.sendError(HttpStatus.UNAUTHORIZED.value())))
 				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers("/api/auth/**", "/actuator/health", "/error").permitAll()
 						.anyRequest().authenticated())

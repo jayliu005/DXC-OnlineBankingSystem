@@ -146,6 +146,11 @@ input {
   outline: 1px solid #70a970;
 }
 
+.legacy-select {
+  height: 27px;
+  padding: 3px 4px;
+}
+
 .legacy-radio-group {
   display: flex;
   align-items: center;
@@ -326,6 +331,15 @@ input {
   opacity: 0.72;
 }
 
+.account-menu-button:not(:disabled) {
+  cursor: pointer;
+}
+
+.account-menu-button:not(:disabled):hover {
+  border-color: #709670;
+  background: linear-gradient(#f5fff5, #b8d3b8);
+}
+
 .account-main {
   padding: 0 25px 35px;
 }
@@ -363,6 +377,74 @@ input {
 
 .account-table-empty {
   color: #666;
+}
+
+.account-load-error {
+  margin-bottom: -20px;
+}
+
+.account-retry {
+  margin-left: 7px;
+  border: 0;
+  color: #006400;
+  background: transparent;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.account-created-title {
+  display: flex;
+  width: 80%;
+  margin: 30px auto 20px;
+  align-items: center;
+  gap: 8px;
+  color: #008000;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: bold;
+  text-align: left;
+}
+
+.account-created-title img {
+  width: 18px;
+  height: 18px;
+}
+
+.account-created-detail {
+  display: grid;
+  width: 80%;
+  margin: 0 auto 20px;
+  grid-template-columns: 145px 1fr;
+  gap: 12px;
+  text-align: left;
+}
+
+.account-created-detail dt {
+  font-weight: bold;
+}
+
+.account-created-detail dd {
+  margin: 0;
+}
+
+.account-created-actions {
+  display: flex;
+  margin: 0 auto 15px;
+  justify-content: center;
+  gap: 12px;
+}
+
+.account-created-actions img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.legacy-empty-note {
+  margin: -5px auto 12px;
+  color: #8a4b08;
+  font-weight: bold;
 }
 
 @media (max-width: 1050px) {
