@@ -22,3 +22,10 @@ export interface TransferRequest {
   amount: string
   securityPin: string
 }
+
+export interface TransactionHistoryRecord {
+  id: number
+  transactionTime: string
+  transactionAmount: number
+  transactionNote: string
+}

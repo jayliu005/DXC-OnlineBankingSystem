@@ -435,6 +435,29 @@ input {
   gap: 12px;
 }
 
+.legacy-fieldset--history {
+  width: 60%;
+  margin-top: 80px;
+}
+
+.legacy-fieldset--history-results {
+  width: 88%;
+  margin-top: 60px;
+}
+
+.history-results-title {
+  margin: 28px auto 15px;
+  color: #008000;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.history-table {
+  width: calc(100% - 30px);
+  margin-top: 15px;
+}
+
 .account-created-actions img {
   width: 14px;
   height: 14px;

@@ -38,6 +38,12 @@ const router = createRouter({
       meta: { requiresAuth: true, title: 'Online Banking Transfer' },
     },
     {
+      path: '/accounts/history',
+      name: 'history',
+      component: () => import('@/views/TransactionHistoryView.vue'),
+      meta: { requiresAuth: true, title: 'Online Banking History' },
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue'),

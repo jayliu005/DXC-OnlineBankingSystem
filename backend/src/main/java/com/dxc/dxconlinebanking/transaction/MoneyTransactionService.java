@@ -2,6 +2,8 @@ package com.dxc.dxconlinebanking.transaction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -64,6 +66,21 @@ public class MoneyTransactionService {
 		accountFrom.withdraw(request.amount());
 		accountTo.deposit(request.amount());
 		return saveTransaction(accountFrom, accountTo, "Transfer", request.amount());
+	}
+
+	@Transactional(readOnly = true)
+	public List<TransactionHistoryResponse> history(
+			String userName, Long accountId, LocalDate startDate, LocalDate endDate) {
+		BankAccount account = requireOwnedAccount(accountId, userName);
+		if (startDate.isAfter(endDate)) {
+			throw new TransactionRejectedException("Start date must not be after end date");
+		}
+		LocalDateTime startTime = startDate.atStartOfDay();
+		LocalDateTime endTime = endDate.plusDays(1).atStartOfDay();
+		return transactionRepository.findForAccountAndTimeRange(account.getId(), startTime, endTime)
+				.stream()
+				.map(record -> TransactionHistoryResponse.from(record, account.getId()))
+				.toList();
 	}
 
 	private BankAccount requireOwnedAccount(Long accountId, String userName) {

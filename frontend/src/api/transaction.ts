@@ -3,6 +3,7 @@ import type {
   CashTransactionType,
   MoneyTransaction,
   MoneyTransactionRequest,
+  TransactionHistoryRecord,
   TransferRequest,
 } from '@/types/transaction'
 
@@ -22,4 +23,13 @@ export function createTransfer(payload: TransferRequest) {
     method: 'POST',
     body: JSON.stringify(payload),
   })
+}
+
+export function getTransactionHistory(accountId: number, startDate: string, endDate: string) {
+  const params = new URLSearchParams({
+    accountId: String(accountId),
+    startDate,
+    endDate,
+  })
+  return request<TransactionHistoryRecord[]>(`/api/transactions/history?${params.toString()}`)
 }

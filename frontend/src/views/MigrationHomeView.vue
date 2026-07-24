@@ -25,7 +25,7 @@ const menuItems = [
   { label: 'Withdraw Money', icon: withdrawIcon, routeName: 'withdraw' },
   { label: 'Deposit Money', icon: depositIcon, routeName: 'deposit' },
   { label: 'Transfer Money', icon: transferIcon, routeName: 'transfer' },
-  { label: 'Transaction History', icon: historyIcon },
+  { label: 'Transaction History', icon: historyIcon, routeName: 'history' },
 ]
 
 onMounted(loadAccounts)
