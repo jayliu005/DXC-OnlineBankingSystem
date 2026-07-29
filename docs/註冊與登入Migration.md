@@ -60,4 +60,4 @@
 - JSF FacesMessage 改為 REST JSON 錯誤與 Vue 欄位訊息；訊息語意和 HTTP 狀態保留相同行為。
 - 舊系統 `database.sql` 遺漏實際存在的 `HIBERNATE_SEQUENCE`，新系統以 V004 明確納入 Flyway 管理。
 - CSRF、cookie 屬性、登入失敗限制與完整自動化認證測試依 Migration 決策保留到後續安全優化。
-- 本切片已完成程式與獨立環境驗證；正式切換前仍須在可控測試資料下執行新舊 UI 並排人工驗收。
+- 本切片已完成程式與本機獨立環境驗證，並納入整體新舊系統人工比對。
