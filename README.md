@@ -71,4 +71,3 @@ VITE_API_PROXY_TARGET=http://localhost:18080 npm run dev
 - [x] 交易紀錄。
 - [x] 個人資料查詢與修改。
 - [x] 新舊系統人工比對。
-- [ ] 正式部署與系統切換。
