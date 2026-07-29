@@ -11,7 +11,7 @@
       </main>
 
       <footer class="legacy-footer">
-        Copyright @ 2015 DXC Online Banking System, All rights reserved.
+        Copyright @ 2026 DXC Online Banking System, All rights reserved.
       </footer>
     </div>
   </div>
