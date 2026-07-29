@@ -27,6 +27,9 @@ input {
 
 .legacy-page {
   min-height: calc(100vh - 16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .legacy-container {
@@ -34,7 +37,7 @@ input {
   width: 91%;
   min-width: 1000px;
   min-height: 564px;
-  margin: 50px auto;
+  margin: 0 auto;
   overflow: hidden;
   flex-direction: column;
   border-radius: 7px;
@@ -346,7 +349,7 @@ input {
 
 .legacy-fieldset--account {
   width: 80%;
-  margin: 80px auto 0;
+  margin: auto;
 }
 
 .account-table {
@@ -485,6 +488,11 @@ input {
 }
 
 @media (max-width: 1050px) {
+  .legacy-page {
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+
   .legacy-container {
     width: calc(100% - 24px);
     min-width: 0;
